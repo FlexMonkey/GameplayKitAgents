@@ -10,7 +10,6 @@
 		3EE1949B1BFB0C9E0006A12B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1949A1BFB0C9E0006A12B /* AppDelegate.swift */; };
 		3EE1949D1BFB0C9E0006A12B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1949C1BFB0C9E0006A12B /* ViewController.swift */; };
 		3EE194A01BFB0C9E0006A12B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1949E1BFB0C9E0006A12B /* Main.storyboard */; };
-		3EE194A31BFB0C9E0006A12B /* GameplayKitAgents.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3EE194A11BFB0C9E0006A12B /* GameplayKitAgents.xcdatamodeld */; };
 		3EE194A51BFB0C9E0006A12B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EE194A41BFB0C9E0006A12B /* Assets.xcassets */; };
 		3EE194A81BFB0C9E0006A12B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EE194A61BFB0C9E0006A12B /* LaunchScreen.storyboard */; };
 		3EFC041D1BFCF8A00023737E /* AgentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFC041C1BFCF8A00023737E /* AgentsView.swift */; };
@@ -21,7 +20,6 @@
 		3EE1949A1BFB0C9E0006A12B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3EE1949C1BFB0C9E0006A12B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3EE1949F1BFB0C9E0006A12B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3EE194A21BFB0C9E0006A12B /* GameplayKitAgents.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GameplayKitAgents.xcdatamodel; sourceTree = "<group>"; };
 		3EE194A41BFB0C9E0006A12B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3EE194A71BFB0C9E0006A12B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3EE194A91BFB0C9E0006A12B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -58,16 +56,23 @@
 		3EE194991BFB0C9E0006A12B /* GameplayKitAgents */ = {
 			isa = PBXGroup;
 			children = (
+				3EFC041E1BFCFB6D0023737E /* agentsView */,
 				3EE1949A1BFB0C9E0006A12B /* AppDelegate.swift */,
 				3EE1949C1BFB0C9E0006A12B /* ViewController.swift */,
 				3EE1949E1BFB0C9E0006A12B /* Main.storyboard */,
 				3EE194A41BFB0C9E0006A12B /* Assets.xcassets */,
 				3EE194A61BFB0C9E0006A12B /* LaunchScreen.storyboard */,
 				3EE194A91BFB0C9E0006A12B /* Info.plist */,
-				3EE194A11BFB0C9E0006A12B /* GameplayKitAgents.xcdatamodeld */,
-				3EFC041C1BFCF8A00023737E /* AgentsView.swift */,
 			);
 			path = GameplayKitAgents;
+			sourceTree = "<group>";
+		};
+		3EFC041E1BFCFB6D0023737E /* agentsView */ = {
+			isa = PBXGroup;
+			children = (
+				3EFC041C1BFCF8A00023737E /* AgentsView.swift */,
+			);
+			name = agentsView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,7 +147,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EFC041D1BFCF8A00023737E /* AgentsView.swift in Sources */,
-				3EE194A31BFB0C9E0006A12B /* GameplayKitAgents.xcdatamodeld in Sources */,
 				3EE1949D1BFB0C9E0006A12B /* ViewController.swift in Sources */,
 				3EE1949B1BFB0C9E0006A12B /* AppDelegate.swift in Sources */,
 			);
@@ -297,19 +301,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		3EE194A11BFB0C9E0006A12B /* GameplayKitAgents.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				3EE194A21BFB0C9E0006A12B /* GameplayKitAgents.xcdatamodel */,
-			);
-			currentVersion = 3EE194A21BFB0C9E0006A12B /* GameplayKitAgents.xcdatamodel */;
-			path = GameplayKitAgents.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 3EE1948F1BFB0C9E0006A12B /* Project object */;
 }
