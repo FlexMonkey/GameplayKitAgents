@@ -37,43 +37,44 @@ class ViewController: UIViewController
         view.layer.addSublayer(agentsLayer)
         view.layer.addSublayer(obstaclesLayer)
         agentsLayer.strokeColor = UIColor.blackColor().CGColor
+        agentsLayer.fillColor = nil
         
         // agents
         
         var agents = [GKAgent2D]()
         
-        for _ in 0 ... 100
+        for _ in 0 ... 250
         {
             let agent = GKAgent2D()
             
-            let randomDistance = drand48() * 10
+            let randomRadius = 5 + drand48() * 30
             let randomAngle = drand48() * M_PI * 2
             
-            agent.radius = 2
-            agent.position.x = Float(sin(randomAngle) * randomDistance)
-            agent.position.y = Float(cos(randomAngle) * randomDistance)
+            agent.radius = 8
+            agent.position.x = Float(sin(randomAngle) * randomRadius)
+            agent.position.y = Float(cos(randomAngle) * randomRadius)
             
             agents.append(agent)
         }
         
         let wanderGoal = GKGoal(toWander: 0.5)
-        let sepGoal = GKGoal(toSeparateFromAgents: agents, maxDistance: 20, maxAngle: 0)
-        let align = GKGoal(toAlignWithAgents: agents, maxDistance: 20, maxAngle: 0)
-        let cohesion = GKGoal(toCohereWithAgents: agents, maxDistance: 20, maxAngle: 0)
+        let sepGoal = GKGoal(toSeparateFromAgents: agents, maxDistance: 40, maxAngle: Float(2 * M_PI))
+        let align = GKGoal(toAlignWithAgents: agents, maxDistance: 20, maxAngle: Float(2 * M_PI))
+        let cohesion = GKGoal(toCohereWithAgents: agents, maxDistance: 20, maxAngle: Float(2 * M_PI))
 
-        let avoid = GKGoal(toAvoidObstacles: [obstacle], maxPredictionTime: 5)
+        let avoid = GKGoal(toAvoidObstacles: [obstacle], maxPredictionTime: 2)
         
         
-        
+        seekTarget.radius = 20
         let seek = GKGoal(toSeekAgent: seekTarget)
         
-        let behaviour = GKBehavior(goals: [wanderGoal, align, sepGoal, seek, avoid, cohesion])
+        let behaviour = GKBehavior(goals: [wanderGoal, align, sepGoal, seek, cohesion, avoid])
         
-        behaviour.setWeight(5, forGoal: seek)
-        behaviour.setWeight(100, forGoal: sepGoal)
-        behaviour.setWeight(20, forGoal: wanderGoal)
+        behaviour.setWeight(0.1, forGoal: seek)
+        behaviour.setWeight(50, forGoal: sepGoal)
+        behaviour.setWeight(5, forGoal: wanderGoal)
         behaviour.setWeight(100, forGoal: avoid)
-        behaviour.setWeight(60, forGoal: cohesion)
+        behaviour.setWeight(5, forGoal: cohesion)
         
         for agent in agents
         {
@@ -82,8 +83,8 @@ class ViewController: UIViewController
             agentSystem.addComponent(agent)
         }
         
-        seekTarget.position.y = -50
-        obstacle.position.y = -25
+        seekTarget.position.y = -300
+        obstacle.position.y = -150
         
         drawObstacles()
         
@@ -93,14 +94,15 @@ class ViewController: UIViewController
     func drawObstacles()
     {
         obstaclesLayer.strokeColor = UIColor.redColor().CGColor
+        obstaclesLayer.fillColor = nil
         obstaclesLayer.lineWidth = 2
         
         let bezierPath = UIBezierPath()
         
-        let position = CGPoint(x: view.frame.width / 2 + CGFloat(obstacle.position.x * 10),
-            y: view.frame.height / 2 + CGFloat(obstacle.position.y * 10))
+        let position = CGPoint(x: view.frame.width / 2 + CGFloat(obstacle.position.x),
+            y: view.frame.height / 2 + CGFloat(obstacle.position.y))
         
-        let circle = UIBezierPath(ovalInRect: CGRect(origin: position,
+        let circle = UIBezierPath(ovalInRect: CGRect(origin: position.offset(dx: obstacle.radius, dy: obstacle.radius),
             size: CGSize(width: CGFloat(obstacle.radius * 2), height: CGFloat(obstacle.radius * 2))))
         
         bezierPath.appendPath(circle)
@@ -117,10 +119,11 @@ class ViewController: UIViewController
         
         for agent in agentSystem.getGKAgent2D() where agent != seekTarget
         {
-            let position = CGPoint(x: view.frame.width / 2 + CGFloat(agent.position.x * 10),
-                y: view.frame.height / 2 + CGFloat(agent.position.y * 10))
+            let position = CGPoint(x: view.frame.width / 2 + CGFloat(agent.position.x),
+                y: view.frame.height / 2 + CGFloat(agent.position.y))
             
-            let circle = UIBezierPath(ovalInRect: CGRect(origin: position, size: CGSize(width: 10, height: 10)))
+            let circle = UIBezierPath(ovalInRect: CGRect(origin: position.offset(dx: agent.radius, dy: agent.radius),
+                size: CGSize(width: CGFloat(agent.radius), height: CGFloat(agent.radius))))
             
             bezierPath.appendPath(circle)
         }
@@ -129,6 +132,18 @@ class ViewController: UIViewController
     }
 }
 
+extension CGPoint
+{
+    func offset(dx dx: Float, dy: Float) -> CGPoint
+    {
+        return offset(dx: CGFloat(dx), dy: CGFloat(dy))
+    }
+    
+    func offset(dx dx: CGFloat, dy: CGFloat) -> CGPoint
+    {
+        return CGPoint(x: x - dx, y: y - dy)
+    }
+}
 
 extension GKComponentSystem
 {
