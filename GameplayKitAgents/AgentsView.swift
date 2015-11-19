@@ -100,9 +100,7 @@ class AgentsView: UIView
         
         for _ in 0 ... 500
         {
-            let agent = GKAgent2D()
-            
-            agentSystem.addComponent(agent)
+            agentSystem.addComponent(GKAgent2D())
         }
         
         resetAgents()

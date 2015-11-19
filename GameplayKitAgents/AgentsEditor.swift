@@ -10,7 +10,7 @@ import UIKit
 
 class AgentsEditor: UIStackView
 {
-    let tableView = UITableView()
+    let tableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
     let resetButton = UIButton()
     
     weak var delegate: AgentsEditorDelegate?

@@ -9,7 +9,7 @@
 import CoreGraphics
 import GameplayKit
 
-class NamedGoal
+struct NamedGoal
 {
     let name: String
     let goal: GKGoal

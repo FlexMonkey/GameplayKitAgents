@@ -24,6 +24,8 @@ class AgentsEditorItemRenderer: UITableViewCell
         slider.maximumValue = 100
         
         slider.addTarget(self, action: "sliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
+        
+        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: bounds.width)
     }
 
     var namedGoal: NamedGoal?
