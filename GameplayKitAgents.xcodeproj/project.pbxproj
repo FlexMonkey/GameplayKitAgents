@@ -13,6 +13,9 @@
 		3EE194A51BFB0C9E0006A12B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EE194A41BFB0C9E0006A12B /* Assets.xcassets */; };
 		3EE194A81BFB0C9E0006A12B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EE194A61BFB0C9E0006A12B /* LaunchScreen.storyboard */; };
 		3EFC041D1BFCF8A00023737E /* AgentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFC041C1BFCF8A00023737E /* AgentsView.swift */; };
+		3EFC04201BFDB0BB0023737E /* AgentsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFC041F1BFDB0BB0023737E /* AgentsEditor.swift */; };
+		3EFC04221BFDB4410023737E /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFC04211BFDB4410023737E /* Common.swift */; };
+		3EFC04241BFDB5E00023737E /* AgentsEditorItemRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFC04231BFDB5E00023737E /* AgentsEditorItemRenderer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		3EE194A71BFB0C9E0006A12B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3EE194A91BFB0C9E0006A12B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3EFC041C1BFCF8A00023737E /* AgentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgentsView.swift; sourceTree = "<group>"; };
+		3EFC041F1BFDB0BB0023737E /* AgentsEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgentsEditor.swift; sourceTree = "<group>"; };
+		3EFC04211BFDB4410023737E /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		3EFC04231BFDB5E00023737E /* AgentsEditorItemRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgentsEditorItemRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +77,9 @@
 			isa = PBXGroup;
 			children = (
 				3EFC041C1BFCF8A00023737E /* AgentsView.swift */,
+				3EFC041F1BFDB0BB0023737E /* AgentsEditor.swift */,
+				3EFC04211BFDB4410023737E /* Common.swift */,
+				3EFC04231BFDB5E00023737E /* AgentsEditorItemRenderer.swift */,
 			);
 			name = agentsView;
 			sourceTree = "<group>";
@@ -148,6 +157,9 @@
 			files = (
 				3EFC041D1BFCF8A00023737E /* AgentsView.swift in Sources */,
 				3EE1949D1BFB0C9E0006A12B /* ViewController.swift in Sources */,
+				3EFC04241BFDB5E00023737E /* AgentsEditorItemRenderer.swift in Sources */,
+				3EFC04201BFDB0BB0023737E /* AgentsEditor.swift in Sources */,
+				3EFC04221BFDB4410023737E /* Common.swift in Sources */,
 				3EE1949B1BFB0C9E0006A12B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

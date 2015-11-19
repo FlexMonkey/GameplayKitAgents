@@ -17,36 +17,54 @@ class AgentsView: UIView
         return CADisplayLink(target: self, selector: Selector("step"))
     }()
     
-    let wanderGoal = GKGoal(toWander: 0.5)
+    let wanderGoal = NamedGoal(name: "Wander", goal: GKGoal(toWander: 0.5), weight: 60)
     
-    lazy var separateGoal: GKGoal =
+    lazy var separateGoal: NamedGoal =
     {
         [unowned self] in
-        GKGoal(toSeparateFromAgents: self.agentSystem.getGKAgent2D(), maxDistance: 10, maxAngle: Float(2 * M_PI))
+        NamedGoal(name: "Separate",
+            goal: GKGoal(toSeparateFromAgents: self.agentSystem.getGKAgent2D(), maxDistance: 10, maxAngle: Float(2 * M_PI)),
+            weight: 10)
+        
     }()
     
-    lazy var alignGoal: GKGoal =
+    lazy var alignGoal: NamedGoal =
     {
         [unowned self] in
-        GKGoal(toAlignWithAgents: self.agentSystem.getGKAgent2D(), maxDistance: 20, maxAngle: Float(2 * M_PI))
+        NamedGoal(name: "Align",
+            goal: GKGoal(toAlignWithAgents: self.agentSystem.getGKAgent2D(), maxDistance: 20, maxAngle: Float(2 * M_PI)),
+            weight: 25)
     }()
     
-    lazy var cohesionGoal: GKGoal =
+    lazy var cohesionGoal: NamedGoal =
     {
         [unowned self] in
-        GKGoal(toCohereWithAgents: self.agentSystem.getGKAgent2D(), maxDistance: 20, maxAngle: Float(2 * M_PI))
+        NamedGoal(name: "Cohesion",
+            goal: GKGoal(toCohereWithAgents: self.agentSystem.getGKAgent2D(), maxDistance: 20, maxAngle: Float(2 * M_PI)),
+            weight: 50)
     }()
     
-    lazy var avoidGoal:GKGoal =
+    lazy var avoidGoal: NamedGoal =
     {
         [unowned self] in
-        GKGoal(toAvoidObstacles: self.obstacles, maxPredictionTime: 1)
+        NamedGoal(name: "Avoid",
+            goal: GKGoal(toAvoidObstacles: self.obstacles, maxPredictionTime: 1),
+            weight: 100)
     }()
     
-    lazy var seekGoal:GKGoal =
+    lazy var seekGoal: NamedGoal =
     {
         [unowned self] in
-        GKGoal(toSeekAgent: self.targets.first!)
+        NamedGoal(name: "Seek",
+            goal: GKGoal(toSeekAgent: self.targets.first!),
+            weight: 50,
+            weightMultiplier: 0.01)
+    }()
+    
+    lazy var namedGoals: [NamedGoal] =
+    {
+        [unowned self] in
+        [self.wanderGoal, self.separateGoal, self.alignGoal, self.cohesionGoal, self.avoidGoal, self.seekGoal]
     }()
     
     let obstacles = [GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100)]
@@ -84,26 +102,15 @@ class AgentsView: UIView
         {
             let agent = GKAgent2D()
             
-            let randomRadius = 5 + drand48() * 200
-            let randomAngle = drand48() * M_PI * 2
-            
-            agent.radius = 10
-            agent.position.x = Float(sin(randomAngle) * randomRadius)
-            agent.position.y = Float(cos(randomAngle) * randomRadius)
-            
-            agent.maxAcceleration = 50
-            agent.maxSpeed = 100
-            
             agentSystem.addComponent(agent)
         }
         
-        behaviour.setWeight(1, forGoal: seekGoal)
+        resetAgents()
         
-        behaviour.setWeight(75, forGoal: separateGoal)
-        behaviour.setWeight(0, forGoal: wanderGoal)
-        behaviour.setWeight(100, forGoal: cohesionGoal)
-        behaviour.setWeight(60, forGoal: alignGoal)
-        behaviour.setWeight(100, forGoal: avoidGoal)
+        for namedGoal in namedGoals
+        {
+            setWeight(namedGoal)
+        }
         
         for agent in agentSystem.getGKAgent2D()
         {
@@ -119,6 +126,13 @@ class AgentsView: UIView
     required init?(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setWeight(namedGoal: NamedGoal)
+    {
+        behaviour.setWeight(namedGoal.weight * namedGoal.weightMultiplier, forGoal: namedGoal.goal)
+        
+        obstaclesLayer.opacity = behaviour.weightForGoal(avoidGoal.goal) / 100
     }
     
     func drawSeekGoals()
@@ -194,3 +208,4 @@ class AgentsView: UIView
     }
     
 }
+

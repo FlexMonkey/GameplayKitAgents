@@ -12,52 +12,61 @@ import GameplayKit
 class ViewController: UIViewController
 {
     let agentsView = AgentsView()
+    let agentsEditor = AgentsEditor(namedGoals: [])
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         view.addSubview(agentsView)
+        view.addSubview(agentsEditor)
         
-        for i in 0 ..< agentsView.behaviour.goalCount
-        {
-            print (agentsView.behaviour[i].debugDescription)
-        }
+        agentsEditor.namedGoals = agentsView.namedGoals
+        agentsEditor.delegate = agentsView
+        
+        viewDidLayoutSubviews()
     }
-    
-  
     
     override func viewDidLayoutSubviews()
     {
+        let isLandscape = view.frame.width > view.frame.height
         let shortDimension = min(view.frame.height - topLayoutGuide.length, view.frame.width)
         
         agentsView.frame = CGRect(x: 0,
             y: topLayoutGuide.length,
             width: shortDimension,
             height: shortDimension)
+        
+        agentsEditor.frame = CGRect(x: isLandscape ? shortDimension : 0,
+            y: topLayoutGuide.length + (isLandscape ? 0 : shortDimension),
+            width: view.frame.width - (isLandscape ? shortDimension : 0),
+            height: view.frame.height - topLayoutGuide.length - (isLandscape ? 0 : shortDimension))
     }
 }
 
-extension CGPoint
+extension AgentsView: AgentsEditorDelegate
 {
-    func offset(dx dx: Float, dy: Float) -> CGPoint
+    func goalWeightDidChange(namedGoal: NamedGoal)
     {
-        return offset(dx: CGFloat(dx), dy: CGFloat(dy))
+        setWeight(namedGoal)
     }
     
-    func offset(dx dx: CGFloat, dy: CGFloat) -> CGPoint
+    func resetAgents()
     {
-        return CGPoint(x: x - dx, y: y - dy)
+        for agent in agentSystem.getGKAgent2D()
+        {
+            let randomRadius = 5 + drand48() * 200
+            let randomAngle = drand48() * M_PI * 2
+            
+            agent.radius = 10
+            agent.position.x = Float(sin(randomAngle) * randomRadius)
+            agent.position.y = Float(cos(randomAngle) * randomRadius)
+            
+            agent.maxAcceleration = 50
+            agent.maxSpeed = 100
+        }
     }
 }
 
-extension GKComponentSystem
-{
-    func getGKAgent2D() -> [GKAgent2D]
-    {
-        return components
-            .filter({ $0 is GKAgent2D })
-            .map({ $0 as! GKAgent2D })
-    }
-}
+
 
