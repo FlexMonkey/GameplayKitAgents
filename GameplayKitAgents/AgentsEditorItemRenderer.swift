@@ -25,7 +25,7 @@ class AgentsEditorItemRenderer: UITableViewCell
         
         slider.addTarget(self, action: "sliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
         
-        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: bounds.width)
+        contentView.backgroundColor = UIColor.redColor()
     }
 
     var namedGoal: NamedGoal?

@@ -26,8 +26,8 @@ class AgentsEditor: UIStackView
         tableView.registerClass(AgentsEditorItemRenderer.self,
             forCellReuseIdentifier: "AgentsEditorItemRenderer")
         
-        tableView.rowHeight = 50
         tableView.dataSource = self
+        tableView.delegate = self
         
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
@@ -87,6 +87,14 @@ extension AgentsEditor: UITableViewDataSource
         cell.slider.addTarget(self, action: "sliderChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
         
         return cell
+    }
+}
+
+extension AgentsEditor: UITableViewDelegate
+{
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
+        return false
     }
 }
 
