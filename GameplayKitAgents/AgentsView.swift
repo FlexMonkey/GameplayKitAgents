@@ -11,7 +11,7 @@ import GameplayKit
 
 class AgentsView: UIView
 {
-    lazy var timer: CADisplayLink =
+    lazy var displayLink: CADisplayLink =
     {
         [unowned self] in
         return CADisplayLink(target: self, selector: Selector("step"))
@@ -48,9 +48,17 @@ class AgentsView: UIView
     {
         [unowned self] in
         NamedGoal(name: "Avoid",
-            goal: GKGoal(toAvoidObstacles: self.obstacles, maxPredictionTime: 1),
+            goal: GKGoal(toAvoidObstacles: self.obstacles, maxPredictionTime: 2),
             weight: 100)
     }()
+    
+    lazy var avoidOtherAgentsGoal: NamedGoal =
+    {
+        [unowned self] in
+        NamedGoal(name: "Avoid Other Agents",
+            goal: GKGoal(toAvoidAgents: self.agentSystem.getGKAgent2D(), maxPredictionTime: 1),
+            weight: 10)
+        }()
     
     lazy var seekGoal: NamedGoal =
     {
@@ -64,7 +72,7 @@ class AgentsView: UIView
     lazy var namedGoals: [NamedGoal] =
     {
         [unowned self] in
-        [self.wanderGoal, self.separateGoal, self.alignGoal, self.cohesionGoal, self.avoidGoal, self.seekGoal]
+        [self.wanderGoal, self.separateGoal, self.alignGoal, self.cohesionGoal, self.avoidGoal, self.seekGoal, self.avoidOtherAgentsGoal]
     }()
     
     let obstacles = [GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100)]
@@ -120,7 +128,7 @@ class AgentsView: UIView
         drawObstacles()
         drawSeekGoals()
         
-        timer.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+        displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
     }
 
     required init?(coder aDecoder: NSCoder)
@@ -133,6 +141,8 @@ class AgentsView: UIView
         behaviour.setWeight(namedGoal.weight * namedGoal.weightMultiplier, forGoal: namedGoal.goal)
         
         obstaclesLayer.opacity = behaviour.weightForGoal(avoidGoal.goal) / 100
+        
+        seekGoalsLayer.opacity = behaviour.weightForGoal(seekGoal.goal) / 100 / seekGoal.weightMultiplier
     }
     
     
