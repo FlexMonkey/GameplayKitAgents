@@ -10,7 +10,7 @@ import UIKit
 
 class AgentsEditor: UIStackView
 {
-    let tableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
+    let tableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Plain)
     let resetButton = UIButton()
     
     weak var delegate: AgentsEditorDelegate?
@@ -29,7 +29,9 @@ class AgentsEditor: UIStackView
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.rowHeight = 50
+        tableView.scrollEnabled = false
+        
+        tableView.rowHeight = 75
         
         resetButton.setTitle("Reset", forState: UIControlState.Normal)
         resetButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
@@ -67,7 +69,12 @@ class AgentsEditor: UIStackView
     override func layoutSubviews()
     {
         axis = UILayoutConstraintAxis.Vertical
+        
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 110)
     }
+    
+    
 }
 
 extension AgentsEditor: UITableViewDataSource

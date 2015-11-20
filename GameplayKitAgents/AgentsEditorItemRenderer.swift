@@ -25,7 +25,11 @@ class AgentsEditorItemRenderer: UITableViewCell
         
         slider.addTarget(self, action: "sliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
         
-        backgroundColor = nil
+        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.layer.shadowColor = UIColor.lightGrayColor().CGColor
+        contentView.layer.shadowOpacity = 0.5
+        contentView.layer.shadowRadius = 5
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 0)
     }
 
     var namedGoal: NamedGoal?
@@ -51,15 +55,24 @@ class AgentsEditorItemRenderer: UITableViewCell
     
     override func layoutSubviews()
     {
+        let componentsHeight = label.intrinsicContentSize().height + slider.intrinsicContentSize().height
+        
+        contentView.frame = CGRect(x: 0,
+            y: frame.height / 2 - componentsHeight / 2,
+            width: frame.width - 20,
+            height: componentsHeight)
+        
         label.frame = CGRect(x: 0,
             y: 0,
-            width: frame.width,
+            width: contentView.frame.width,
             height: label.intrinsicContentSize().height).insetBy(dx: 10, dy: 0)
         
         slider.frame = CGRect(x: 0,
-            y: frame.height - slider.intrinsicContentSize().height,
-            width: frame.width,
+            y: label.intrinsicContentSize().height,
+            width: contentView.frame.width,
             height: slider.intrinsicContentSize().height).insetBy(dx: 10, dy: 0)
+      
+
     }
 }
 

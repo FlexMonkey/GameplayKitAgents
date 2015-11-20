@@ -247,7 +247,7 @@ class AgentsView: UIView
     
     func step()
     {
-        agentSystem.updateWithDeltaTime(0.1)
+        agentSystem.updateWithDeltaTime(0.05)
         
         let bezierPath = UIBezierPath()
         

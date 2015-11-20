@@ -40,7 +40,7 @@ class ViewController: UIViewController
         agentsEditor.frame = CGRect(x: isLandscape ? shortDimension : 0,
             y: topLayoutGuide.length + (isLandscape ? 0 : shortDimension),
             width: view.frame.width - (isLandscape ? shortDimension : 0),
-            height: view.frame.height - topLayoutGuide.length - (isLandscape ? 0 : shortDimension))
+            height: view.frame.height - topLayoutGuide.length - (isLandscape ? 0 : shortDimension)).insetBy(dx: 10, dy: 10)
     }
 }
 
