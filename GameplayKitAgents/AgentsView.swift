@@ -77,6 +77,8 @@ class AgentsView: UIView
     let obstaclesLayer = CAShapeLayer()
     let seekGoalsLayer = CAShapeLayer()
     
+    var selectionMode = SelectionMode.None
+    
     override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -133,6 +135,69 @@ class AgentsView: UIView
         obstaclesLayer.opacity = behaviour.weightForGoal(avoidGoal.goal) / 100
     }
     
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
+    {
+        guard let touchPosition = touches.first?.locationInView(self), target = targets.first else
+        {
+            return
+        }
+
+        let adjustedTouchLocation = vector_float2(Float(touchPosition.x - frame.width / 2),
+            Float(touchPosition.y - frame.height / 2))
+        
+        let distToTarget = hypot(adjustedTouchLocation.x - target.position.x,
+            adjustedTouchLocation.y - target.position.y)
+        
+        if distToTarget < target.radius
+        {
+            selectionMode = .Target
+            return
+        }
+        
+        for (index, obstacle) in obstacles.enumerate()
+        {
+            let distToObstacle = hypot(adjustedTouchLocation.x - obstacle.position.x,
+                adjustedTouchLocation.y - obstacle.position.y)
+            
+            if distToObstacle < obstacle.radius
+            {
+                selectionMode = .Obstacle(index: index)
+                return
+            }
+        }
+        
+        selectionMode = .None
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
+    {
+        guard let touchPosition = touches.first?.locationInView(self) else
+        {
+            return
+        }
+        
+        let adjustedTouchLocation = vector_float2(Float(touchPosition.x - frame.width / 2),
+            Float(touchPosition.y - frame.height / 2))
+        
+        switch selectionMode
+        {
+        case .None:
+            return
+        case .Target:
+            targets.first?.position = adjustedTouchLocation
+            drawSeekGoals()
+        case .Obstacle(let idx):
+            obstacles[idx].position = adjustedTouchLocation
+            drawObstacles()
+        }
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
+    {
+        selectionMode = .None
+    }
+    
     func drawSeekGoals()
     {
         seekGoalsLayer.strokeColor = UIColor.blueColor().CGColor
@@ -143,13 +208,9 @@ class AgentsView: UIView
         
         for seekTarget in targets
         {
-            let position = CGPoint(x: frame.width / 2 + CGFloat(seekTarget.position.x),
-                y: frame.height / 2 + CGFloat(seekTarget.position.y))
-            
-            let circle = UIBezierPath(ovalInRect: CGRect(origin: position.offset(dx: seekTarget.radius, dy: seekTarget.radius),
-                size: CGSize(width: CGFloat(seekTarget.radius * 2), height: CGFloat(seekTarget.radius * 2))))
-            
-            bezierPath.appendPath(circle)
+            bezierPath.appendCircleOfRadius(seekTarget.radius,
+                atPosition: seekTarget.position,
+                inFrame: frame)
         }
         
         seekGoalsLayer.path = bezierPath.CGPath
@@ -165,13 +226,9 @@ class AgentsView: UIView
         
         for obstacle in obstacles
         {
-            let position = CGPoint(x: frame.width / 2 + CGFloat(obstacle.position.x),
-                y: frame.height / 2 + CGFloat(obstacle.position.y))
-            
-            let circle = UIBezierPath(ovalInRect: CGRect(origin: position.offset(dx: obstacle.radius, dy: obstacle.radius),
-                size: CGSize(width: CGFloat(obstacle.radius * 2), height: CGFloat(obstacle.radius * 2))))
-            
-            bezierPath.appendPath(circle)
+            bezierPath.appendCircleOfRadius(obstacle.radius,
+                atPosition: obstacle.position,
+                inFrame: frame)
         }
         
         obstaclesLayer.path = bezierPath.CGPath
@@ -186,13 +243,9 @@ class AgentsView: UIView
         
         for agent in agentSystem.getGKAgent2D() where !targets.contains(agent)
         {
-            let position = CGPoint(x: frame.width / 2 + CGFloat(agent.position.x),
-                y: frame.height / 2 + CGFloat(agent.position.y))
-            
-            let circle = UIBezierPath(ovalInRect: CGRect(origin: position.offset(dx: agent.radius, dy: agent.radius),
-                size: CGSize(width: CGFloat(agent.radius), height: CGFloat(agent.radius))))
-            
-            bezierPath.appendPath(circle)
+            bezierPath.appendCircleOfRadius(agent.radius,
+                atPosition: agent.position,
+                inFrame: frame)
         }
         
         agentsLayer.path = bezierPath.CGPath
@@ -205,5 +258,12 @@ class AgentsView: UIView
         drawSeekGoals()
     }
     
+}
+
+enum SelectionMode
+{
+    case None
+    case Target
+    case Obstacle(index: Int)
 }
 

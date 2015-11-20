@@ -29,7 +29,7 @@ class AgentsEditor: UIStackView
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.rowHeight = 50
         
         resetButton.setTitle("Reset", forState: UIControlState.Normal)
         resetButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)

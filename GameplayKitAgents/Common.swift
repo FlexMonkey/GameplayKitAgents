@@ -8,6 +8,7 @@
 
 import CoreGraphics
 import GameplayKit
+import UIKit
 
 struct NamedGoal
 {
@@ -46,5 +47,19 @@ extension GKComponentSystem
         return components
             .filter({ $0 is GKAgent2D })
             .map({ $0 as! GKAgent2D })
+    }
+}
+
+extension UIBezierPath
+{
+    func appendCircleOfRadius(radius: Float, atPosition position: vector_float2, inFrame frame: CGRect)
+    {
+        let position = CGPoint(x: frame.width / 2 + CGFloat(position.x),
+            y: frame.height / 2 + CGFloat(position.y))
+        
+        let circle = UIBezierPath(ovalInRect: CGRect(origin: position.offset(dx: radius, dy: radius),
+            size: CGSize(width: CGFloat(radius * 2), height: CGFloat(radius * 2))))
+        
+        appendPath(circle)
     }
 }

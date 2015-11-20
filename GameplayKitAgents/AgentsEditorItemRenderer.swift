@@ -25,7 +25,7 @@ class AgentsEditorItemRenderer: UITableViewCell
         
         slider.addTarget(self, action: "sliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
         
-        contentView.backgroundColor = UIColor.redColor()
+        backgroundColor = nil
     }
 
     var namedGoal: NamedGoal?
@@ -35,7 +35,7 @@ class AgentsEditorItemRenderer: UITableViewCell
             slider.value = namedGoal?.weight ?? 0
             slider.namedGoal = namedGoal
             
-            label.text = namedGoal?.name ?? ""
+            label.text = (namedGoal?.name ?? "") + String(format: ": %.2f", slider.value)
         }
     }
     
@@ -51,9 +51,15 @@ class AgentsEditorItemRenderer: UITableViewCell
     
     override func layoutSubviews()
     {
-        label.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height / 2).insetBy(dx: 10, dy: 0)
+        label.frame = CGRect(x: 0,
+            y: 0,
+            width: frame.width,
+            height: label.intrinsicContentSize().height).insetBy(dx: 10, dy: 0)
         
-        slider.frame = CGRect(x: 0, y: frame.height / 2, width: frame.width, height: frame.height / 2).insetBy(dx: 10, dy: 0)
+        slider.frame = CGRect(x: 0,
+            y: frame.height - slider.intrinsicContentSize().height,
+            width: frame.width,
+            height: slider.intrinsicContentSize().height).insetBy(dx: 10, dy: 0)
     }
 }
 
