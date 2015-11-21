@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3EC2AE9C1C005083005CBE16 /* gameplaykit.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3EC2AE9B1C005083005CBE16 /* gameplaykit.gif */; };
 		3EE1949B1BFB0C9E0006A12B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1949A1BFB0C9E0006A12B /* AppDelegate.swift */; };
 		3EE1949D1BFB0C9E0006A12B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1949C1BFB0C9E0006A12B /* ViewController.swift */; };
 		3EE194A01BFB0C9E0006A12B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1949E1BFB0C9E0006A12B /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3EC2AE9B1C005083005CBE16 /* gameplaykit.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gameplaykit.gif; sourceTree = "<group>"; };
 		3EE194971BFB0C9E0006A12B /* GameplayKitAgents.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameplayKitAgents.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EE1949A1BFB0C9E0006A12B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3EE1949C1BFB0C9E0006A12B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		3EE194991BFB0C9E0006A12B /* GameplayKitAgents */ = {
 			isa = PBXGroup;
 			children = (
+				3EC2AE9B1C005083005CBE16 /* gameplaykit.gif */,
 				3EFC041E1BFCFB6D0023737E /* agentsView */,
 				3EE1949A1BFB0C9E0006A12B /* AppDelegate.swift */,
 				3EE1949C1BFB0C9E0006A12B /* ViewController.swift */,
@@ -145,6 +148,7 @@
 				3EE194A81BFB0C9E0006A12B /* LaunchScreen.storyboard in Resources */,
 				3EE194A51BFB0C9E0006A12B /* Assets.xcassets in Resources */,
 				3EE194A01BFB0C9E0006A12B /* Main.storyboard in Resources */,
+				3EC2AE9C1C005083005CBE16 /* gameplaykit.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

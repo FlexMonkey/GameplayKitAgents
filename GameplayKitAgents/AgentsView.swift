@@ -17,13 +17,17 @@ class AgentsView: UIView
         return CADisplayLink(target: self, selector: Selector("step"))
     }()
     
-    let wanderGoal = NamedGoal(name: "Wander", goal: GKGoal(toWander: 25), weight: 60)
+    let wanderGoal = NamedGoal(name: "Wander",
+        goal: GKGoal(toWander: 25),
+        weight: 60)
     
     lazy var separateGoal: NamedGoal =
     {
         [unowned self] in
         NamedGoal(name: "Separate",
-            goal: GKGoal(toSeparateFromAgents: self.agentSystem.getGKAgent2D(), maxDistance: 10, maxAngle: Float(2 * M_PI)),
+            goal: GKGoal(toSeparateFromAgents: self.agentSystem.getGKAgent2D(),
+                maxDistance: 10,
+                maxAngle: Float(2 * M_PI)),
             weight: 10)
         
     }()
@@ -32,7 +36,9 @@ class AgentsView: UIView
     {
         [unowned self] in
         NamedGoal(name: "Align",
-            goal: GKGoal(toAlignWithAgents: self.agentSystem.getGKAgent2D(), maxDistance: 20, maxAngle: Float(2 * M_PI)),
+            goal: GKGoal(toAlignWithAgents: self.agentSystem.getGKAgent2D(),
+                maxDistance: 20,
+                maxAngle: Float(2 * M_PI)),
             weight: 25)
     }()
     
@@ -40,7 +46,9 @@ class AgentsView: UIView
     {
         [unowned self] in
         NamedGoal(name: "Cohesion",
-            goal: GKGoal(toCohereWithAgents: self.agentSystem.getGKAgent2D(), maxDistance: 20, maxAngle: Float(2 * M_PI)),
+            goal: GKGoal(toCohereWithAgents: self.agentSystem.getGKAgent2D(),
+                maxDistance: 20,
+                maxAngle: Float(2 * M_PI)),
             weight: 50)
     }()
     
@@ -48,7 +56,8 @@ class AgentsView: UIView
     {
         [unowned self] in
         NamedGoal(name: "Avoid",
-            goal: GKGoal(toAvoidObstacles: self.obstacles, maxPredictionTime: 2),
+            goal: GKGoal(toAvoidObstacles: self.obstacles,
+                maxPredictionTime: 2),
             weight: 100)
     }()
     
@@ -67,7 +76,10 @@ class AgentsView: UIView
         [self.wanderGoal, self.separateGoal, self.alignGoal, self.cohesionGoal, self.avoidGoal, self.seekGoal]
     }()
     
-    let obstacles = [GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100)]
+    let obstacles = [GKCircleObstacle(radius: 100),
+        GKCircleObstacle(radius: 100),
+        GKCircleObstacle(radius: 100),
+        GKCircleObstacle(radius: 100)]
     
     let agentSystem =  GKComponentSystem(componentClass: GKAgent2D.self)
     let targets = [GKAgent2D()]
@@ -120,7 +132,8 @@ class AgentsView: UIView
         drawObstacles()
         drawSeekGoals()
         
-        displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+        displayLink.addToRunLoop(NSRunLoop.mainRunLoop(),
+            forMode: NSDefaultRunLoopMode)
     }
 
     required init?(coder aDecoder: NSCoder)
@@ -243,7 +256,7 @@ class AgentsView: UIView
         
         let bezierPath = UIBezierPath()
         
-        for agent in agentSystem.getGKAgent2D() where !targets.contains(agent)
+        for agent in agentSystem.getGKAgent2D()
         {
             bezierPath.appendCircleOfRadius(agent.radius,
                 atPosition: agent.position,
