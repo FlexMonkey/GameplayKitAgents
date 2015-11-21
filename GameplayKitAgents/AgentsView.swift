@@ -17,7 +17,7 @@ class AgentsView: UIView
         return CADisplayLink(target: self, selector: Selector("step"))
     }()
     
-    let wanderGoal = NamedGoal(name: "Wander", goal: GKGoal(toWander: 0.5), weight: 60)
+    let wanderGoal = NamedGoal(name: "Wander", goal: GKGoal(toWander: 25), weight: 60)
     
     lazy var separateGoal: NamedGoal =
     {
@@ -52,14 +52,6 @@ class AgentsView: UIView
             weight: 100)
     }()
     
-    lazy var avoidOtherAgentsGoal: NamedGoal =
-    {
-        [unowned self] in
-        NamedGoal(name: "Avoid Other Agents",
-            goal: GKGoal(toAvoidAgents: self.agentSystem.getGKAgent2D(), maxPredictionTime: 1),
-            weight: 10)
-        }()
-    
     lazy var seekGoal: NamedGoal =
     {
         [unowned self] in
@@ -72,7 +64,7 @@ class AgentsView: UIView
     lazy var namedGoals: [NamedGoal] =
     {
         [unowned self] in
-        [self.wanderGoal, self.separateGoal, self.alignGoal, self.cohesionGoal, self.avoidGoal, self.seekGoal, self.avoidOtherAgentsGoal]
+        [self.wanderGoal, self.separateGoal, self.alignGoal, self.cohesionGoal, self.avoidGoal, self.seekGoal]
     }()
     
     let obstacles = [GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100), GKCircleObstacle(radius: 100)]
@@ -108,7 +100,7 @@ class AgentsView: UIView
         obstacles[2].position = vector_float2(200, -200)
         obstacles[3].position = vector_float2(200, 200)
         
-        for _ in 0 ... 500
+        for _ in 0 ... 250
         {
             agentSystem.addComponent(GKAgent2D())
         }
